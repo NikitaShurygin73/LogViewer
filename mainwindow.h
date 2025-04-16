@@ -18,6 +18,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void SendRequest();
+    void toggleTree();
 
 private:
     void closeTab(int index);
