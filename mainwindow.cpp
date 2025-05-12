@@ -52,22 +52,23 @@ void MainWindow::FileClicked(const QModelIndex &index)
 {
     QString filePath = fileModel->filePath(index);
 
-    // Проверка: является ли это файлом (а не директорией)
+    // Проверка является ли это файлом
     if (!QFileInfo(filePath).isFile())
         return;
 
-    // Открытие файла
-    QFile file(filePath);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qWarning() << "Не удалось открыть файл:" << filePath;
+    QString ext = QFileInfo(filePath).suffix().toLower();
+    QStringList allowedExt = { "txt", "log", "csv" };
+
+    if (!allowedExt.contains(ext)) {
+        QString msg = "Файл с расширением ." + ext + " не поддерживается.";
+        statusBar()->showMessage(msg, 5000);
         return;
     }
 
-    QString fileExtension = QFileInfo(filePath).suffix().toLower();
-    QStringList allowedExtensions = {"txt", "log", "csv"};
-
-    if (!allowedExtensions.contains(fileExtension)) {
-        qWarning() << "Этот тип файла не поддерживается:" << fileExtension;
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QString msg = "Ошибка открытия файла: " + file.errorString();
+        statusBar()->showMessage(msg, 5000);
         return;
     }
 
