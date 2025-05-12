@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QSplitter>
+#include <QFileSystemModel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,6 +24,8 @@ public:
 private:
     void closeTab(int index);
     QSplitter *splitter; //splitter как член класса
+    QFileSystemModel *fileModel;
+     void FileClicked(const QModelIndex &index);
     Ui::MainWindow *ui;
 };
 #endif // MAINWINDOW_H
